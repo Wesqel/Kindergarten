@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Children">
+          <Key>
+            <PropertyRef Name="idСhildren" />
+          </Key>
+          <Property Name="idСhildren" Type="int" Nullable="false" />
+          <Property Name="ChildrenPhoto" Type="varbinary(max)" />
+          <Property Name="ChildrenSurname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ChildrenName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ChildrenPatronymic" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ChildrenBirthday" Type="datetime" Nullable="false" />
+          <Property Name="Birth_certificate" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Home_address" Type="nvarchar(max)" />
+          <Property Name="SNILS" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="idMenu" Type="int" />
+          <Property Name="IdGroup" Type="int" />
+        </EntityType>
+        <EntityType Name="Children_Extra_class">
+          <Key>
+            <PropertyRef Name="idСhildren" />
+            <PropertyRef Name="IdExtra" />
+          </Key>
+          <Property Name="idСhildren" Type="int" Nullable="false" />
+          <Property Name="IdExtra" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Extra_class">
+          <Key>
+            <PropertyRef Name="IdExtra" />
+          </Key>
+          <Property Name="IdExtra" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="nchar" MaxLength="10" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="idGroup" />
+          </Key>
+          <Property Name="idGroup" Type="int" Nullable="false" />
+          <Property Name="Mentor" Type="int" Nullable="false" />
+          <Property Name="NameGroup" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NumberChildren" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="idMenu" />
+          </Key>
+          <Property Name="idMenu" Type="int" Nullable="false" />
+          <Property Name="idChildren" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="nchar" MaxLength="10" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parents">
+          <Key>
+            <PropertyRef Name="idParents" />
+          </Key>
+          <Property Name="idParents" Type="int" Nullable="false" />
+          <Property Name="FIO_Parents" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PassportNumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone_number" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="idChildren" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="idReport" />
+          </Key>
+          <Property Name="idReport" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO_Children" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AttendanceTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="DateReport" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="idRole" />
+          </Key>
+          <Property Name="idRole" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="UserSurname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserPatronymic" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserRole" Type="int" Nullable="false" />
+          <Property Name="UserLogin" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserPassword" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserPassportNumber" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Children___IdExt__35BCFE0A">
+          <End Role="Extra_class" Type="Self.Extra_class" Multiplicity="1" />
+          <End Role="Children_Extra_class" Type="Self.Children_Extra_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Extra_class">
+              <PropertyRef Name="IdExtra" />
+            </Principal>
+            <Dependent Role="Children_Extra_class">
+              <PropertyRef Name="IdExtra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Children_Extra_class_Children">
+          <End Role="Children" Type="Self.Children" Multiplicity="1" />
+          <End Role="Children_Extra_class" Type="Self.Children_Extra_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Children">
+              <PropertyRef Name="idСhildren" />
+            </Principal>
+            <Dependent Role="Children_Extra_class">
+              <PropertyRef Name="idСhildren" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Children_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="Children" Type="Self.Children" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="idGroup" />
+            </Principal>
+            <Dependent Role="Children">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Children_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="Children" Type="Self.Children" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="idMenu" />
+            </Principal>
+            <Dependent Role="Children">
+              <PropertyRef Name="idMenu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="Mentor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parents_Children">
+          <End Role="Children" Type="Self.Children" Multiplicity="1" />
+          <End Role="Parents" Type="Self.Parents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Children">
+              <PropertyRef Name="idСhildren" />
+            </Principal>
+            <Dependent Role="Parents">
+              <PropertyRef Name="idChildren" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="idRole" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelContainer">
+          <EntitySet Name="Children" EntityType="Self.Children" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Children_Extra_class" EntityType="Self.Children_Extra_class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Extra_class" EntityType="Self.Extra_class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parents" EntityType="Self.Parents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Children___IdExt__35BCFE0A" Association="Self.FK__Children___IdExt__35BCFE0A">
+            <End Role="Extra_class" EntitySet="Extra_class" />
+            <End Role="Children_Extra_class" EntitySet="Children_Extra_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Children_Extra_class_Children" Association="Self.FK_Children_Extra_class_Children">
+            <End Role="Children" EntitySet="Children" />
+            <End Role="Children_Extra_class" EntitySet="Children_Extra_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Children_Group" Association="Self.FK_Children_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Children" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Children_Menu" Association="Self.FK_Children_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Children" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_User" Association="Self.FK_Group_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parents_Children" Association="Self.FK_Parents_Children">
+            <End Role="Children" EntitySet="Children" />
+            <End Role="Parents" EntitySet="Parents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Сhildren">
+          <Key>
+            <PropertyRef Name="idСhildren" />
+          </Key>
+          <Property Name="idСhildren" Type="Int32" Nullable="false" />
+          <Property Name="ChildrenPhoto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ChildrenSurname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChildrenName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChildrenPatronymic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChildrenBirthday" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Birth_certificate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Home_address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SNILS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idMenu" Type="Int32" />
+          <Property Name="IdGroup" Type="Int32" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_Children_Group" FromRole="Children" ToRole="Group" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK_Children_Menu" FromRole="Children" ToRole="Menu" />
+          <NavigationProperty Name="Parents" Relationship="Self.FK_Parents_Children" FromRole="Children" ToRole="Parents" />
+          <NavigationProperty Name="Extra_class" Relationship="Self.Children_Extra_class" FromRole="Children" ToRole="Extra_class" />
+        </EntityType>
+        <EntityType Name="Extra_class">
+          <Key>
+            <PropertyRef Name="IdExtra" />
+          </Key>
+          <Property Name="IdExtra" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Children" Relationship="Self.Children_Extra_class" FromRole="Extra_class" ToRole="Children" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="idGroup" />
+          </Key>
+          <Property Name="idGroup" Type="Int32" Nullable="false" />
+          <Property Name="Mentor" Type="Int32" Nullable="false" />
+          <Property Name="NameGroup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumberChildren" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Children" Relationship="Self.FK_Children_Group" FromRole="Group" ToRole="Children" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Group_User" FromRole="Group" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="idMenu" />
+          </Key>
+          <Property Name="idMenu" Type="Int32" Nullable="false" />
+          <Property Name="idChildren" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Children" Relationship="Self.FK_Children_Menu" FromRole="Menu" ToRole="Children" />
+        </EntityType>
+        <EntityType Name="Parents">
+          <Key>
+            <PropertyRef Name="idParents" />
+          </Key>
+          <Property Name="idParents" Type="Int32" Nullable="false" />
+          <Property Name="FIO_Parents" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PassportNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone_number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idChildren" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Children" Relationship="Self.FK_Parents_Children" FromRole="Parents" ToRole="Children" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="idReport" />
+          </Key>
+          <Property Name="idReport" Type="Int32" Nullable="false" />
+          <Property Name="FIO_Children" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AttendanceTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="DateReport" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="idRole" />
+          </Key>
+          <Property Name="idRole" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="UserSurname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPatronymic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserRole" Type="Int32" Nullable="false" />
+          <Property Name="UserLogin" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPassportNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_Group_User" FromRole="User" ToRole="Group" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_Children_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="Children" Type="Model.Сhildren" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="idGroup" />
+            </Principal>
+            <Dependent Role="Children">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Children_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="Children" Type="Model.Сhildren" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="idMenu" />
+            </Principal>
+            <Dependent Role="Children">
+              <PropertyRef Name="idMenu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parents_Children">
+          <End Role="Children" Type="Model.Сhildren" Multiplicity="1" />
+          <End Role="Parents" Type="Self.Parents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Children">
+              <PropertyRef Name="idСhildren" />
+            </Principal>
+            <Dependent Role="Parents">
+              <PropertyRef Name="idChildren" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="Mentor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="idRole" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Children_Extra_class">
+          <End Role="Extra_class" Type="Self.Extra_class" Multiplicity="*" />
+          <End Role="Children" Type="Model.Сhildren" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Сhildren" EntityType="Model.Сhildren" />
+          <EntitySet Name="Extra_class" EntityType="Self.Extra_class" />
+          <EntitySet Name="Group" EntityType="Self.Group" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" />
+          <EntitySet Name="Parents" EntityType="Self.Parents" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_Children_Group" Association="Self.FK_Children_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Children" EntitySet="Сhildren" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Children_Menu" Association="Self.FK_Children_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Children" EntitySet="Сhildren" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parents_Children" Association="Self.FK_Parents_Children">
+            <End Role="Children" EntitySet="Сhildren" />
+            <End Role="Parents" EntitySet="Parents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_User" Association="Self.FK_Group_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="Children_Extra_class" Association="Self.Children_Extra_class">
+            <End Role="Extra_class" EntitySet="Extra_class" />
+            <End Role="Children" EntitySet="Сhildren" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Сhildren">
+            <EntityTypeMapping TypeName="Model.Сhildren">
+              <MappingFragment StoreEntitySet="Children">
+                <ScalarProperty Name="idСhildren" ColumnName="idСhildren" />
+                <ScalarProperty Name="ChildrenPhoto" ColumnName="ChildrenPhoto" />
+                <ScalarProperty Name="ChildrenSurname" ColumnName="ChildrenSurname" />
+                <ScalarProperty Name="ChildrenName" ColumnName="ChildrenName" />
+                <ScalarProperty Name="ChildrenPatronymic" ColumnName="ChildrenPatronymic" />
+                <ScalarProperty Name="ChildrenBirthday" ColumnName="ChildrenBirthday" />
+                <ScalarProperty Name="Birth_certificate" ColumnName="Birth_certificate" />
+                <ScalarProperty Name="Home_address" ColumnName="Home_address" />
+                <ScalarProperty Name="SNILS" ColumnName="SNILS" />
+                <ScalarProperty Name="idMenu" ColumnName="idMenu" />
+                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Extra_class">
+            <EntityTypeMapping TypeName="Model.Extra_class">
+              <MappingFragment StoreEntitySet="Extra_class">
+                <ScalarProperty Name="IdExtra" ColumnName="IdExtra" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Group">
+            <EntityTypeMapping TypeName="Model.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="idGroup" ColumnName="idGroup" />
+                <ScalarProperty Name="Mentor" ColumnName="Mentor" />
+                <ScalarProperty Name="NameGroup" ColumnName="NameGroup" />
+                <ScalarProperty Name="NumberChildren" ColumnName="NumberChildren" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menu">
+            <EntityTypeMapping TypeName="Model.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="idMenu" ColumnName="idMenu" />
+                <ScalarProperty Name="idChildren" ColumnName="idChildren" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parents">
+            <EntityTypeMapping TypeName="Model.Parents">
+              <MappingFragment StoreEntitySet="Parents">
+                <ScalarProperty Name="idParents" ColumnName="idParents" />
+                <ScalarProperty Name="FIO_Parents" ColumnName="FIO_Parents" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="Phone_number" ColumnName="Phone_number" />
+                <ScalarProperty Name="idChildren" ColumnName="idChildren" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="Model.Reports">
+              <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="idReport" ColumnName="idReport" />
+                <ScalarProperty Name="FIO_Children" ColumnName="FIO_Children" />
+                <ScalarProperty Name="AttendanceTime" ColumnName="AttendanceTime" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="Model.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="idRole" ColumnName="idRole" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="UserSurname" ColumnName="UserSurname" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPatronymic" ColumnName="UserPatronymic" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="UserLogin" ColumnName="UserLogin" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserPassportNumber" ColumnName="UserPassportNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Children_Extra_class" TypeName="Model.Children_Extra_class" StoreEntitySet="Children_Extra_class">
+            <EndProperty Name="Extra_class">
+              <ScalarProperty Name="IdExtra" ColumnName="IdExtra" />
+            </EndProperty>
+            <EndProperty Name="Children">
+              <ScalarProperty Name="idСhildren" ColumnName="idСhildren" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
